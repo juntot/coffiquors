@@ -194,8 +194,10 @@ const ProdView = ({data, test, addCart}) => {
                 paddingTop: 12,
               }}>
               <View>
-                <Text style={{fontSize: 12}}>Sub Total:</Text>
-                <Text style={{fontWeight: 'bold'}}>
+                <Text style={{fontSize: 12, color: colorStyle.gray}}>
+                  Sub Total:
+                </Text>
+                <Text style={{fontWeight: 'bold', color: colorStyle.gray}}>
                   {APP_CURRENCY}
                   {subTotal || data.price}
                 </Text>

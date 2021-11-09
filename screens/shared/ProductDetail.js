@@ -89,11 +89,10 @@ const ProductDetail = ({route, navigation, state, addCart}) => {
                   <TouchableOpacity
                     activeOpacity={0.8}
                     style={{
-                      backgroundColor: 'rgba(0,0,0,0)',
-                      borderRadius: 50,
-                      elevation: 0,
-                      left: 15,
-                      top: 25,
+                      padding: 15,
+                      position: 'relative',
+                      left: 10,
+                      top: 16,
                     }}
                     onPress={() => {
                       navigation.goBack();

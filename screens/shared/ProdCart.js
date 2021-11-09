@@ -11,7 +11,7 @@ const ProdCart = ({data, ...props}) => {
   const minus = () => {
     if (props.hasOwnProperty('minus')) {
       if (qty > 1) {
-        setQty((qty) => {
+        setQty(qty => {
           return qty - 1;
         });
         props.minus({...data, qty: qty - 1});
@@ -24,7 +24,7 @@ const ProdCart = ({data, ...props}) => {
 
   const plus = () => {
     if (props.hasOwnProperty('plus')) {
-      setQty((qty) => {
+      setQty(qty => {
         return qty + 1;
       });
       props.plus({...data, qty: qty + 1});
@@ -90,7 +90,10 @@ const ProdCart = ({data, ...props}) => {
                   size={22}
                 />
               </TouchableOpacity>
-              <Text style={{marginLeft: 8, marginRight: 8}}>{qty}</Text>
+              <Text
+                style={{marginLeft: 8, marginRight: 8, color: colorStyle.gray}}>
+                {qty}
+              </Text>
               <TouchableOpacity onPress={plus}>
                 <MaterialCommunityIcons
                   name="plus"

@@ -13,7 +13,7 @@ const ProdCategory = ({navigation, navlink, title, imgUrl, route}) => {
       <View
         style={{
           flex: 1,
-          flexWrap: 'wrap',
+          // flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',
           alignContent: 'center',

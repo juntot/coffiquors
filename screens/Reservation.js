@@ -15,7 +15,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {layoutStyle, colorStyle, fromStyle} from '../theme';
 import BottomNav from './shared/BottomNav';
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import DatePicker from 'react-native-ui-xg';
+
+// import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DatePicker from 'react-native-date-picker';
 
 import moment from 'moment';
 import {APP_URL} from '../config';
@@ -178,85 +180,100 @@ Total Seats: ${seats}`);
                 value={contact}
                 maxLength={14}
               />
-              {/* <Pressable onPress={showDatepicker}> */}
-              {/* <View pointerEvents="none"> */}
-
+              {/* reservation date */}
               {Platform.OS === 'ios' ? (
-                <TextInput
-                  style={fromStyle.input}
-                  underlineColorAndroid="transparent"
-                  placeholder="Date"
-                  placeholderTextColor={colorStyle.gold2}
-                  autoCapitalize="none"
-                  // editable={false}
-                  // onBlur={() => setShow(false)}
-                  // onFocus={showDatepicker}
-                  // value={date ? moment(date).format('YYYY-MM-DD') : ''}
-                  value={date || ''}
-                  onChangeText={text => setDate(text)}
-                />
+                <Pressable
+                  onPress={() => {
+                    setMode('date');
+                    setShow(true);
+                  }}>
+                  <TextInput
+                    pointerEvents="none"
+                    style={fromStyle.input}
+                    underlineColorAndroid="transparent"
+                    placeholder="Date"
+                    placeholderTextColor={colorStyle.gold2}
+                    autoCapitalize="none"
+                    editable={false}
+                    // value={date ? moment(date).format('YYYY-MM-DD') : ''}
+                    value={date || ''}
+                    onChangeText={text => setDate(text)}
+                  />
+                </Pressable>
               ) : (
-                <TextInput
-                  style={fromStyle.input}
-                  underlineColorAndroid="transparent"
-                  placeholder="Date"
-                  placeholderTextColor={colorStyle.gold2}
-                  autoCapitalize="none"
-                  editable={false}
-                  // value={date ? moment(date).format('YYYY-MM-DD') : ''}
-                  value={date || ''}
-                  onChangeText={text => setDate(text)}
-                />
+                <Pressable
+                  onPress={() => {
+                    setMode('date');
+                    setShow(true);
+                  }}>
+                  <TextInput
+                    pointerEvents="none"
+                    style={fromStyle.input}
+                    underlineColorAndroid="transparent"
+                    placeholder="Date"
+                    placeholderTextColor={colorStyle.gold2}
+                    autoCapitalize="none"
+                    editable={false}
+                    // value={date ? moment(date).format('YYYY-MM-DD') : ''}
+                    value={date || ''}
+                    onChangeText={text => setDate(text)}
+                  />
+                </Pressable>
               )}
 
-              {/* </View> */}
-              {/* </Pressable>
-              <Pressable onPress={showTimepicker}> */}
-              {/* <View pointerEvents="none"> */}
-
+              {/* reservation time */}
               {Platform.OS === 'ios' ? (
-                <TextInput
-                  style={fromStyle.input}
-                  underlineColorAndroid="transparent"
-                  placeholder="Time"
-                  placeholderTextColor={colorStyle.gold2}
-                  autoCapitalize="none"
-                  // editable={false}
-                  // onBlur={() => setShow(false)}
-                  // onFocus={showTimepicker}
-                  // value={time ? moment(time).format('HH:mm A') : ''}
-                  value={time || ''}
-                  onChangeText={text => setTime(text)}
-                />
+                <Pressable
+                  onPress={() => {
+                    setMode('time');
+                    setShow(true);
+                  }}>
+                  <TextInput
+                    pointerEvents="none"
+                    style={fromStyle.input}
+                    underlineColorAndroid="transparent"
+                    placeholder="Time"
+                    placeholderTextColor={colorStyle.gold2}
+                    autoCapitalize="none"
+                    editable={false}
+                    // value={date ? moment(date).format('YYYY-MM-DD') : ''}
+                    value={date || ''}
+                    onChangeText={text => setDate(text)}
+                  />
+                </Pressable>
               ) : (
-                <TextInput
-                  style={fromStyle.input}
-                  underlineColorAndroid="transparent"
-                  placeholder="Time"
-                  placeholderTextColor={colorStyle.gold2}
-                  autoCapitalize="none"
-                  editable={false}
-                  // value={time ? moment(time).format('HH:mm A') : ''}
-                  value={time || ''}
-                  onChangeText={text => setTime(text)}
-                />
+                <Pressable
+                  onPress={() => {
+                    setMode('time');
+                    setShow(true);
+                  }}>
+                  <TextInput
+                    pointerEvents="none"
+                    style={fromStyle.input}
+                    underlineColorAndroid="transparent"
+                    placeholder="Time"
+                    placeholderTextColor={colorStyle.gold2}
+                    autoCapitalize="none"
+                    editable={false}
+                    // value={date ? moment(date).format('YYYY-MM-DD') : ''}
+                    value={date || ''}
+                    onChangeText={text => setDate(text)}
+                  />
+                </Pressable>
+                // <TextInput
+                //   style={fromStyle.input}
+                //   underlineColorAndroid="transparent"
+                //   placeholder="Time"
+                //   placeholderTextColor={colorStyle.gold2}
+                //   autoCapitalize="none"
+                //   editable={false}
+                //   // value={time ? moment(time).format('HH:mm A') : ''}
+                //   value={time || ''}
+                //   onChangeText={text => setTime(text)}
+                // />
               )}
 
-              {/* </View> */}
-              {/* </Pressable> */}
-              {/* <TextInput
-                style={fromStyle.input}
-                underlineColorAndroid="transparent"
-                placeholder="Time"
-                placeholderTextColor={colorStyle.gold2}
-                autoCapitalize="none"
-                onFocus={showTimepicker}
-                value={time ? moment(time).format('HH:mm A') : ''}
-              /> */}
-
-              {/* <Button onPress={showDatepicker} title="Show date picker!" />
-            <Button onPress={showTimepicker} title="Show time picker!" /> */}
-
+              {/* total seats */}
               <TextInput
                 style={fromStyle.input}
                 underlineColorAndroid="transparent"
@@ -267,6 +284,7 @@ Total Seats: ${seats}`);
                 onChangeText={text => setSeats(text)}
                 value={seats}
               />
+              {/* book now button */}
               <TouchableOpacity activeOpacity={0.8} onPress={() => bookNow()}>
                 <View style={{paddingTop: 15}}>
                   <Text
@@ -281,56 +299,39 @@ Total Seats: ${seats}`);
                 </View>
               </TouchableOpacity>
               {show && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  // minimumDate={date}
-                  value={defaultDate || new Date()}
+                // <DateTimePicker
+                //   testID="dateTimePicker"
+                //   // minimumDate={date}
+                //   value={defaultDate || new Date()}
+                //   mode={mode}
+                //   is24Hour={true}
+                //   display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                //   onChange={onChangePicker}
+                //   textColor="white"
+                // />
+
+                <DatePicker
+                  modal
+                  title={mode === 'date' ? 'SELECT DATE' : 'SELECT TIME'}
+                  open={show}
                   mode={mode}
-                  is24Hour={true}
-                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                  onChange={onChangePicker}
-                  // style={{
-                  //   position: 'absolute',
-                  //   top: 0,
-                  //   height: 100,
-                  //   left: 0,
-                  //   right: 0,
-                  //   zIndex: 99999,
-                  //   backgroundColor: 'grey',
-                  // }}
-                  textColor="white"
+                  date={new Date()}
+                  onConfirm={date => {
+                    // setOpen(false)
+                    // setDate(date)
+                  }}
+                  onCancel={() => {
+                    setShow(false);
+                  }}
+                  // textColor={colorStyle.gold2}
                 />
               )}
             </View>
           </View>
         </ScrollView>
       </View>
-      {/* <DatePicker
-        style={{width: 200}}
-        date={new Date()}
-        mode="date"
-        placeholder="select date"
-        format="YYYY-MM-DD"
-        minDate="2016-05-01"
-        maxDate="2016-06-01"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        customStyles={{
-          dateIcon: {
-            position: 'absolute',
-            left: 0,
-            top: 4,
-            marginLeft: 0,
-          },
-          dateInput: {
-            marginLeft: 36,
-          },
-          // ... You can check the source to find the other keys.
-        }}
-        onDateChange={date => {
-          // this.setState({date: date});
-        }}
-      /> */}
+
+      {/* POP UP FOR ALERT */}
       <PopUp show={showLoader} success={isSuccess}>
         {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}> */}
         <View
