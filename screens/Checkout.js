@@ -22,6 +22,8 @@ import CheckBox from '@react-native-community/checkbox';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import DatePicker from 'react-native-date-picker';
+
 import {ScrollView} from 'react-native-gesture-handler';
 import {layoutStyle, styles, colorStyle, fromStyle} from '../theme';
 import BottomNav from './shared/BottomNav';
@@ -70,36 +72,38 @@ const Checkout = ({navigation, route, state, resetCart}) => {
     };
   }, []);
 
-  const onChangePicker = (event, selectedDate) => {
-    const currentDate = selectedDate;
+  const onChangePicker = selectedDate => {
     setShow(Platform.OS === 'ios');
-    setDefaultDate(currentDate);
+    setDefaultDate(selectedDate);
     if (mode === 'date') {
+      const currentDate = moment(selectedDate).format('MM-DD-YYYY');
       setDate(currentDate);
     } else {
+      const currentDate = moment(selectedDate).format('hh:mm A');
       setTime(currentDate);
     }
+    setShow(false);
   };
 
-  const showMode = currentMode => {
-    setShow(true);
-    setMode(currentMode);
-  };
+  // const showMode = currentMode => {
+  //   setShow(true);
+  //   setMode(currentMode);
+  // };
 
-  const showDatepicker = () => {
-    setDate(date || new Date());
-    showMode('date');
-  };
+  // const showDatepicker = () => {
+  //   setDate(date || new Date());
+  //   showMode('date');
+  // };
 
-  const showTimepicker = () => {
-    setTime(time || new Date());
-    showMode('time');
-  };
+  // const showTimepicker = () => {
+  //   setTime(time || new Date());
+  //   showMode('time');
+  // };
 
   const submitOrder = async () => {
     const uuid = await AsyncStorage.getItem('@uuid');
-    const selectedDate = moment(date).format('YYYY-MM-DD');
-    const selectedTime = moment(time).format('HH:mm:ss');
+    const selectedDate = moment(date, 'MM-DD-YYYY').format('YYYY-MM-DD');
+    const selectedTime = moment(time, 'hh:mm A').format('HH:mm:ss');
     let params = {
       uuid,
       name,
@@ -199,33 +203,45 @@ const Checkout = ({navigation, route, state, resetCart}) => {
                 value={contact}
               />
 
-              {/* <Pressable onPress={showDatepicker}> */}
+              {/* date picker */}
               {Platform.OS === 'ios' ? (
-                <TextInput
-                  style={fromStyle.input}
-                  underlineColorAndroid="transparent"
-                  placeholder="Date"
-                  placeholderTextColor={colorStyle.gold2}
-                  autoCapitalize="none"
-                  // editable={false}
-                  // onBlur={() => setShow(false)}
-                  // onFocus={showDatepicker}
-                  //  value={date ? moment(date).format('YYYY-MM-DD') : ''}
-                  value={date || ''}
-                  onChangeText={text => setDate(text)}
-                />
+                <Pressable
+                  onPress={() => {
+                    setMode('date');
+                    setShow(true);
+                  }}>
+                  <TextInput
+                    pointerEvents="none"
+                    style={fromStyle.input}
+                    underlineColorAndroid="transparent"
+                    placeholder="Date"
+                    placeholderTextColor={colorStyle.gold2}
+                    autoCapitalize="none"
+                    editable={false}
+                    // value={date ? moment(date).format('YYYY-MM-DD') : ''}
+                    value={date || ''}
+                    onChangeText={text => setDate(text)}
+                  />
+                </Pressable>
               ) : (
-                <TextInput
-                  style={fromStyle.input}
-                  underlineColorAndroid="transparent"
-                  placeholder="Date"
-                  placeholderTextColor={colorStyle.gold2}
-                  autoCapitalize="none"
-                  // editable={false}
-                  //  value={date ? moment(date).format('YYYY-MM-DD') : ''}
-                  value={date || ''}
-                  onChangeText={text => setDate(text)}
-                />
+                <Pressable
+                  onPress={() => {
+                    setMode('date');
+                    setShow(true);
+                  }}>
+                  <TextInput
+                    pointerEvents="none"
+                    style={fromStyle.input}
+                    underlineColorAndroid="transparent"
+                    placeholder="Date"
+                    placeholderTextColor={colorStyle.gold2}
+                    autoCapitalize="none"
+                    editable={false}
+                    // value={date ? moment(date).format('YYYY-MM-DD') : ''}
+                    value={date || ''}
+                    onChangeText={text => setDate(text)}
+                  />
+                </Pressable>
               )}
 
               {/* </View> */}
@@ -284,6 +300,7 @@ const Checkout = ({navigation, route, state, resetCart}) => {
                 </Text>
               </View>
               {
+                // time picker
                 isChecked ? (
                   <TextInput
                     style={fromStyle.input}
@@ -295,32 +312,43 @@ const Checkout = ({navigation, route, state, resetCart}) => {
                     value={address}
                   />
                 ) : Platform.OS === 'ios' ? (
-                  <TextInput
-                    style={fromStyle.input}
-                    underlineColorAndroid="transparent"
-                    placeholder="Time"
-                    placeholderTextColor={colorStyle.gold2}
-                    autoCapitalize="none"
-                    // editable={false}
-                    // onBlur={() => setShow(false)}
-                    // onFocus={showTimepicker}
-                    // value={time ? moment(time).format('HH:mm A') : ''}
-                    value={time || ''}
-                    onChangeText={text => setTime(text)}
-                  />
+                  <Pressable
+                    onPress={() => {
+                      setMode('time');
+                      setShow(true);
+                    }}>
+                    <TextInput
+                      pointerEvents="none"
+                      style={fromStyle.input}
+                      underlineColorAndroid="transparent"
+                      placeholder="Time"
+                      placeholderTextColor={colorStyle.gold2}
+                      autoCapitalize="none"
+                      editable={false}
+                      // value={date ? moment(date).format('YYYY-MM-DD') : ''}
+                      value={time || ''}
+                      onChangeText={text => setDate(text)}
+                    />
+                  </Pressable>
                 ) : (
-                  <TextInput
-                    style={fromStyle.input}
-                    underlineColorAndroid="transparent"
-                    placeholder="Time"
-                    placeholderTextColor={colorStyle.gold2}
-                    autoCapitalize="none"
-                    // editable={false}
-                    // onFocus={showTimepicker}
-                    // value={time ? moment(time).format('HH:mm A') : ''}
-                    value={time || ''}
-                    onChangeText={text => setTime(text)}
-                  />
+                  <Pressable
+                    onPress={() => {
+                      setMode('time');
+                      setShow(true);
+                    }}>
+                    <TextInput
+                      pointerEvents="none"
+                      style={fromStyle.input}
+                      underlineColorAndroid="transparent"
+                      placeholder="Time"
+                      placeholderTextColor={colorStyle.gold2}
+                      autoCapitalize="none"
+                      editable={false}
+                      // value={date ? moment(date).format('YYYY-MM-DD') : ''}
+                      value={time || ''}
+                      onChangeText={text => setDate(text)}
+                    />
+                  </Pressable>
                 )
                 // (
                 //   <TextInput
@@ -420,17 +448,29 @@ const Checkout = ({navigation, route, state, resetCart}) => {
             </PopUp>
 
             {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                // minimumDate={new Date()}
-                value={defaultDate || new Date()}
+              <DatePicker
+                modal
+                title={mode === 'date' ? 'SELECT DATE' : 'SELECT TIME'}
+                open={show}
                 mode={mode}
-                is24Hour={true}
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={onChangePicker}
-                // style={{backgroundColor: 'red', color: 'red'}}
-                textColor="white"
+                date={defaultDate}
+                onConfirm={onChangePicker}
+                onCancel={() => {
+                  setShow(false);
+                }}
+                textColor={colorStyle.black2}
               />
+              // <DateTimePicker
+              //   testID="dateTimePicker"
+              //   // minimumDate={new Date()}
+              //   value={defaultDate || new Date()}
+              //   mode={mode}
+              //   is24Hour={true}
+              //   display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              //   onChange={onChangePicker}
+              //   // style={{backgroundColor: 'red', color: 'red'}}
+              //   textColor="white"
+              // />
             )}
           </View>
         </ScrollView>

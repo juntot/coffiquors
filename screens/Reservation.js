@@ -62,41 +62,44 @@ const Reservation = ({navigation}) => {
     };
   }, []);
 
-  const onChangePicker = (event, selectedDate) => {
-    const currentDate = selectedDate;
+  const onChangePicker = selectedDate => {
     setShow(Platform.OS === 'ios');
-    setDefaultDate(currentDate);
+    setDefaultDate(selectedDate);
     if (mode === 'date') {
+      const currentDate = moment(selectedDate).format('MM-DD-YYYY');
       setDate(currentDate);
     } else {
+      const currentDate = moment(selectedDate).format('hh:mm A');
       setTime(currentDate);
     }
+    setShow(false);
 
     // console.log(event);
   };
 
-  const showMode = currentMode => {
-    setShow(true);
-    setMode(currentMode);
-  };
+  // const showMode = currentMode => {
+  //   setShow(true);
+  //   setMode(currentMode);
+  // };
 
-  const showDatepicker = () => {
-    setDate(date || new Date());
-    showMode('date');
-  };
+  // const showDatepicker = () => {
+  //   setDate(date || new Date());
+  //   showMode('date');
+  // };
 
-  const showTimepicker = () => {
-    setTime(time || new Date());
-    // console.log(time);
-    showMode('time');
-  };
+  // const showTimepicker = () => {
+  //   setTime(time || new Date());
+  //   // console.log(time);
+  //   showMode('time');
+  // };
 
   const deviceData = async () => {};
 
   const bookNow = async () => {
     const value = await AsyncStorage.getItem('@uuid');
-    const selectedDate = moment(date).format('YYYY-MM-DD');
-    const selectedTime = moment(time).format('HH:mm:ss');
+    console.log(date, time);
+    const selectedDate = moment(date, 'MM-DD-YYYY').format('YYYY-MM-DD');
+    const selectedTime = moment(time, 'hh:mm A').format('HH:mm:ss');
     if (value) {
       let params = {
         uuid: value,
@@ -121,7 +124,7 @@ const Reservation = ({navigation}) => {
         setShowLoader(true);
         return;
       }
-      // console.log(APP_URL, params);
+      console.log(APP_URL, params);
       axios
         .post(APP_URL + '/api/reservation', params, {
           cancelToken: source.token,
@@ -137,6 +140,7 @@ Total Seats: ${seats}`);
           setShowLoader(true);
         })
         .catch(e => {
+          console.log(e);
           setIsSuccess(false);
           setMsg(
             'Sorry! We are unable to process your request please try again.',
@@ -237,7 +241,7 @@ Total Seats: ${seats}`);
                     autoCapitalize="none"
                     editable={false}
                     // value={date ? moment(date).format('YYYY-MM-DD') : ''}
-                    value={date || ''}
+                    value={time || ''}
                     onChangeText={text => setDate(text)}
                   />
                 </Pressable>
@@ -256,7 +260,7 @@ Total Seats: ${seats}`);
                     autoCapitalize="none"
                     editable={false}
                     // value={date ? moment(date).format('YYYY-MM-DD') : ''}
-                    value={date || ''}
+                    value={time || ''}
                     onChangeText={text => setDate(text)}
                   />
                 </Pressable>
@@ -315,15 +319,12 @@ Total Seats: ${seats}`);
                   title={mode === 'date' ? 'SELECT DATE' : 'SELECT TIME'}
                   open={show}
                   mode={mode}
-                  date={new Date()}
-                  onConfirm={date => {
-                    // setOpen(false)
-                    // setDate(date)
-                  }}
+                  date={defaultDate}
+                  onConfirm={onChangePicker}
                   onCancel={() => {
                     setShow(false);
                   }}
-                  // textColor={colorStyle.gold2}
+                  textColor={colorStyle.black2}
                 />
               )}
             </View>
